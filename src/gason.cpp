@@ -332,3 +332,55 @@ int jsonParse(char *s, char **endptr, JsonValue *value, JsonAllocator &allocator
     }
     return JSON_BREAKING_BAD;
 }
+
+extern "C" void* new_JsonAllocator() {
+  JsonAllocator *ja = new JsonAllocator();
+  return reinterpret_cast<void*>(ja);
+}
+
+extern "C" void delete_JsonAllocator(JsonAllocator* ja) {
+  delete ja;
+}
+
+extern "C" void* new_JsonValue() {
+  JsonValue *jv = new JsonValue();
+  return reinterpret_cast<void*>(jv);
+}
+
+extern "C" void delete_JsonValue(JsonValue* jv) {
+  delete jv;
+}
+
+extern "C" int get_tag(JsonValue* jv) {
+  return jv->getTag();
+}
+
+extern "C" char *to_string(JsonValue* jv) {
+  return jv->toString();
+}
+
+extern "C" double to_number(JsonValue* jv) {
+  return jv->toNumber();
+}
+
+extern "C" int json_parse(char *source, char *endptr, JsonValue* jv, JsonAllocator* ja) {
+  return jsonParse(source, &endptr, jv, *ja);
+}
+
+extern "C" void* to_node(JsonValue* jv) {
+  JsonNode *jn = jv->toNode();
+  return reinterpret_cast<void*>(jn);
+}
+
+extern "C" void* node_next(JsonNode* jn) {
+  return reinterpret_cast<void*>(jn->next);
+}
+
+extern "C" char *node_key(JsonNode* jn) {
+  return jn->key;
+}
+
+extern "C" void* node_value(JsonNode* jn) {
+  JsonValue *jv = &jn->value;
+  return reinterpret_cast<void*>(jv);
+}

@@ -8,7 +8,7 @@ endif()
 
 add_compile_options(-Wall -Wextra)
 
-add_library(gason STATIC src/gason.cpp)
+add_library(gason SHARED src/gason.cpp)
 link_libraries(gason)
 add_executable(test-suite src/test-suite.cpp)
 add_executable(gasonpp src/pretty-print.cpp)
